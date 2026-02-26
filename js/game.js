@@ -351,7 +351,7 @@ export class Game {
         if (!this.projectiles.hasActive && !this.weaponSystem.hasActiveEffects) {
             // Give particles a brief moment to display, then advance
             if (!this._turnEndTimer) {
-                this._turnEndTimer = 0.25; // Brief pause to see explosion
+                this._turnEndTimer = 5.0; // 5 seconds to watch explosion
             }
             this._turnEndTimer -= dt;
             if (this._turnEndTimer <= 0) {

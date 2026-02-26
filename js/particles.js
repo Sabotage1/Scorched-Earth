@@ -137,7 +137,7 @@ export class ParticleSystem {
                 x, y,
                 Math.cos(angle) * speed,
                 Math.sin(angle) * speed,
-                randRange(0.2, 0.6),
+                randRange(0.5, 1.5),
                 c,
                 randRange(2, 5),
                 'fire'
@@ -152,7 +152,7 @@ export class ParticleSystem {
                 x, y,
                 Math.cos(angle) * speed,
                 Math.sin(angle) * speed - randRange(50, 150),
-                randRange(0.5, 1.5),
+                randRange(1.5, 3.5),
                 `hsl(${randInt(20, 40)},${randInt(30, 60)}%,${randInt(20, 50)}%)`,
                 randRange(1, 3),
                 'debris'
@@ -168,7 +168,7 @@ export class ParticleSystem {
                 y + randRange(-radius / 2, radius / 2),
                 Math.cos(angle) * speed,
                 Math.sin(angle) * speed - 20,
-                randRange(0.8, 2.0),
+                randRange(2.0, 5.0),
                 `rgba(${randInt(80, 120)},${randInt(80, 120)},${randInt(80, 120)},0.5)`,
                 randRange(4, 10),
                 'smoke'
