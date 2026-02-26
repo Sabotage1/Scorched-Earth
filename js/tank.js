@@ -23,7 +23,7 @@ export class Tank {
         this.shieldHP = 0;
         this.hasParachute = false;
         this.hasBattery = false;
-        this.fuel = 0;
+        this.fuel = 20;
 
         // Aiming
         this.aimAngle = 90; // degrees, 0=right, 90=up, 180=left
@@ -211,7 +211,7 @@ export class Tank {
         this.alive = true;
         this.isFalling = false;
         this.shieldHP = 0;
-        this.fuel = 0;
+        this.fuel = 20;
         this.hasBattery = false;
         // Keep weapons, money, score, parachute between rounds
     }
