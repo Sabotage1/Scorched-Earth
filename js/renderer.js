@@ -6,6 +6,46 @@ import { CANVAS_WIDTH, CANVAS_HEIGHT, TANK_WIDTH, TANK_HEIGHT, TANK_TURRET_LENGT
 import { degToRad, lerp, rgbToStr, clamp } from './utils.js';
 import { randInt } from './utils.js';
 
+// Visual style per weapon type
+const PROJECTILE_STYLES = {
+    basic: {
+        size: 3, core: '#fff', glow: 'rgba(255,200,50,0.5)',
+        trail: 'rgba(255,200,50,0.3)', trailWidth: 1
+    },
+    bigshot: {
+        size: 5, core: '#ffe44d', glow: 'rgba(255,180,0,0.6)',
+        halo: 'rgba(255,150,0,0.15)',
+        trail: 'rgba(255,160,0,0.4)', trailWidth: 2
+    },
+    mirv: {
+        size: 4, core: '#5fff5f', glow: 'rgba(50,255,50,0.5)',
+        halo: 'rgba(0,255,0,0.1)',
+        trail: 'rgba(50,255,50,0.35)', trailWidth: 2
+    },
+    napalm: {
+        size: 4, core: '#ff6a00', glow: 'rgba(255,80,0,0.6)',
+        halo: 'rgba(255,50,0,0.12)',
+        trail: 'rgba(255,100,0,0.4)', trailWidth: 2
+    },
+    dirtbomb: {
+        size: 4, core: '#c8a050', glow: 'rgba(160,120,50,0.5)',
+        trail: 'rgba(140,100,40,0.3)', trailWidth: 2
+    },
+    roller: {
+        size: 4, core: '#aaa', glow: 'rgba(180,180,180,0.5)',
+        trail: 'rgba(150,150,150,0.3)', trailWidth: 1.5
+    },
+    laser: {
+        size: 2, core: '#ff3333', glow: 'rgba(255,50,50,0.5)',
+        trail: 'rgba(255,50,50,0.3)', trailWidth: 1
+    },
+    nuke: {
+        size: 6, core: '#fff', glow: 'rgba(255,255,100,0.7)',
+        halo: 'rgba(255,200,50,0.2)',
+        trail: 'rgba(255,200,50,0.5)', trailWidth: 3
+    }
+};
+
 export class Renderer {
     constructor(canvas) {
         this.canvas = canvas;
@@ -212,16 +252,41 @@ export class Renderer {
 
     drawProjectile(projectile) {
         const ctx = this.ctx;
-        ctx.fillStyle = '#fff';
+        const style = PROJECTILE_STYLES[projectile.weaponKey] || PROJECTILE_STYLES.basic;
+
+        // Core
+        ctx.fillStyle = style.core;
         ctx.beginPath();
-        ctx.arc(projectile.x, projectile.y, 3, 0, Math.PI * 2);
+        ctx.arc(projectile.x, projectile.y, style.size, 0, Math.PI * 2);
         ctx.fill();
 
-        // Trail glow
-        ctx.fillStyle = 'rgba(255,200,50,0.6)';
+        // Glow
+        ctx.fillStyle = style.glow;
         ctx.beginPath();
-        ctx.arc(projectile.x, projectile.y, 5, 0, Math.PI * 2);
+        ctx.arc(projectile.x, projectile.y, style.size * 2, 0, Math.PI * 2);
         ctx.fill();
+
+        // Outer halo for large projectiles
+        if (style.halo) {
+            ctx.fillStyle = style.halo;
+            ctx.beginPath();
+            ctx.arc(projectile.x, projectile.y, style.size * 3.5, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        // Draw trail
+        if (projectile.trail.length > 1) {
+            ctx.strokeStyle = style.trail;
+            ctx.lineWidth = style.trailWidth || 1;
+            ctx.beginPath();
+            const start = Math.max(0, projectile.trail.length - 15);
+            for (let i = start; i < projectile.trail.length; i++) {
+                const t = projectile.trail[i];
+                if (i === start) ctx.moveTo(t.x, t.y);
+                else ctx.lineTo(t.x, t.y);
+            }
+            ctx.stroke();
+        }
     }
 
     drawAimIndicator(tank) {
