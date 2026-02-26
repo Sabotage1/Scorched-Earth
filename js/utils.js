@@ -8,8 +8,30 @@ export function lerp(a, b, t) {
     return a + (b - a) * t;
 }
 
+// Seeded PRNG (Mulberry32)
+let _seededRng = null;
+
+export function seedRng(seed) {
+    _seededRng = _mulberry32(seed);
+}
+
+export function unseedRng() {
+    _seededRng = null;
+}
+
+function _mulberry32(seed) {
+    return function() {
+        seed |= 0;
+        seed = seed + 0x6D2B79F5 | 0;
+        let t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+        t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+        return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    };
+}
+
 export function randRange(min, max) {
-    return Math.random() * (max - min) + min;
+    const r = _seededRng ? _seededRng() : Math.random();
+    return r * (max - min) + min;
 }
 
 export function randInt(min, max) {

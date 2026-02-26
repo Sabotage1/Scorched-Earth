@@ -4,7 +4,6 @@ import { CANVAS_WIDTH, CANVAS_HEIGHT, TANK_WIDTH, TANK_HEIGHT, TANK_TURRET_LENGT
          TANK_TURRET_WIDTH, HEALTH_BAR_WIDTH, HEALTH_BAR_HEIGHT, HEALTH_BAR_OFFSET,
          PLAYER_COLORS, TANK_MAX_HEALTH, SKY_THEMES, HUD_HEIGHT } from './constants.js';
 import { degToRad, lerp, rgbToStr, clamp } from './utils.js';
-import { randInt } from './utils.js';
 
 // Visual style per weapon type
 const PROJECTILE_STYLES = {
@@ -82,7 +81,7 @@ export class Renderer {
     }
 
     randomizeSky() {
-        this.skyTheme = SKY_THEMES[randInt(0, SKY_THEMES.length - 1)];
+        this.skyTheme = SKY_THEMES[Math.floor(Math.random() * SKY_THEMES.length)];
         this._renderSky();
     }
 

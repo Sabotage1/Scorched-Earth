@@ -1,7 +1,7 @@
 // main.js - Bootstrap, game loop
 
 import { CANVAS_WIDTH, CANVAS_HEIGHT } from './constants.js';
-import { Game } from './game.js';
+import { Game, STATE } from './game.js';
 
 const canvas = document.getElementById('game-canvas');
 canvas.width = CANVAS_WIDTH;
@@ -25,4 +25,11 @@ function gameLoop(timestamp) {
 requestAnimationFrame((timestamp) => {
     lastTime = timestamp;
     gameLoop(timestamp);
+});
+
+// Prevent accidental page refresh during active gameplay
+window.addEventListener('beforeunload', (e) => {
+    if (game.isActiveGameState) {
+        e.preventDefault();
+    }
 });

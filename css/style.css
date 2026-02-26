@@ -348,6 +348,136 @@ body {
     text-align: center;
 }
 
+/* Online multiplayer */
+.btn-online {
+    background: #8e44ad;
+    color: #fff;
+}
+
+.btn-online:hover:not(:disabled) {
+    background: #9b59b6;
+}
+
+#online-overlay {
+    position: absolute;
+    top: 55px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.75);
+    color: #f1c40f;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    padding: 8px 20px;
+    border-radius: 6px;
+    border: 1px solid rgba(241, 196, 15, 0.3);
+    z-index: 5;
+    pointer-events: none;
+    display: none;
+    white-space: nowrap;
+}
+
+#online-overlay.visible {
+    display: block;
+}
+
+.room-code {
+    font-family: 'Courier New', monospace;
+    font-size: 36px;
+    font-weight: bold;
+    color: #f1c40f;
+    letter-spacing: 6px;
+    padding: 15px 25px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px dashed rgba(241, 196, 15, 0.4);
+    border-radius: 8px;
+    margin: 15px 0;
+    user-select: all;
+}
+
+.online-section {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.online-section h3 {
+    color: #888;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+}
+
+.online-divider {
+    display: flex;
+    align-items: center;
+    margin: 20px 0;
+    color: #555;
+    font-size: 12px;
+    letter-spacing: 2px;
+}
+
+.online-divider::before,
+.online-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.online-divider::before {
+    margin-right: 15px;
+}
+
+.online-divider::after {
+    margin-left: 15px;
+}
+
+.online-input {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #fff;
+    padding: 10px 14px;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    font-size: 15px;
+    text-align: center;
+    width: 100%;
+    max-width: 280px;
+    letter-spacing: 2px;
+}
+
+.online-input::placeholder {
+    color: #555;
+    letter-spacing: 0;
+}
+
+.online-status {
+    color: #888;
+    font-size: 13px;
+    margin-top: 10px;
+    min-height: 20px;
+}
+
+.online-status.connected {
+    color: #2ecc71;
+}
+
+.online-status.error {
+    color: #e74c3c;
+}
+
+.online-waiting {
+    color: #f39c12;
+    font-size: 16px;
+    margin: 20px 0;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+}
+
 /* Responsive scaling */
 @media (max-width: 1200px) {
     #game-container {
