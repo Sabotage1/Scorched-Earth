@@ -35,9 +35,9 @@ export const SURVIVAL_BONUS = 1000;
 export const STARTING_MONEY = 10000;
 
 // Timing
-export const TURN_TRANSITION_DELAY = 800;
-export const AI_THINK_DELAY = 1000;
-export const AI_AIM_DURATION = 1500;
+export const TURN_TRANSITION_DELAY = 400;
+export const AI_THINK_DELAY = 400;
+export const AI_AIM_DURATION = 800;
 export const EXPLOSION_DURATION = 600;
 export const ROUND_END_DELAY = 2000;
 
