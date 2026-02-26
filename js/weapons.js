@@ -201,15 +201,24 @@ export class WeaponSystem {
 
             if (distance < radius) {
                 const falloff = 1 - (distance / radius);
-                const damage = Math.floor(weapon.damage * falloff);
+                const damage = Math.floor(weapon.damage * 1.5 * falloff);
                 if (damage > 0) {
-                    const actualDamage = tank.takeDamage(damage);
+                    tank.takeDamage(damage);
+                    const killed = !tank.alive;
                     results.push({
                         tank,
                         damage,
-                        killed: !tank.alive,
+                        killed,
                         ownerIndex
                     });
+                    // Big death explosion when tank is destroyed
+                    if (killed) {
+                        this.particles.spawnNukeExplosion(tank.x, tank.surfaceY, 50);
+                        this.terrain.destroyCircle(tank.x, tank.surfaceY, 35);
+                        this.renderer.shake(15);
+                        this.renderer.flash(0.6);
+                        if (this.audio) this.audio.playExplosion(60);
+                    }
                 }
             }
         }
