@@ -17,37 +17,63 @@ export class Terrain {
 
     generate() {
         this.theme = TERRAIN_THEMES[randInt(0, TERRAIN_THEMES.length - 1)];
-        this._midpointDisplacement();
-        this._smoothTerrain(30);
+
+        // Step 1: Rolling base terrain using layered sine waves
+        this._generateBase();
+
+        // Step 2: Add random peaks/hills at various positions
+        const peakCount = randInt(3, 7);
+        for (let i = 0; i < peakCount; i++) {
+            const cx = randRange(50, CANVAS_WIDTH - 50);
+            const width = randRange(60, 250);  // Varying widths
+            const height = randRange(60, 200);  // Varying heights
+            this._addPeak(cx, width, height);
+        }
+
+        // Step 3: Light smoothing to blend peaks naturally
+        this._smoothTerrain(8);
+
         this.dirty = true;
         this.dirtyColumns.clear();
         this._renderOffscreen();
     }
 
-    _midpointDisplacement() {
+    _generateBase() {
         const hm = this.heightmap;
-        const n = CANVAS_WIDTH;
+        // Random base height
+        const baseHeight = randRange(TERRAIN_MIN_HEIGHT + 30, TERRAIN_MIN_HEIGHT + 120);
 
-        // Set endpoints
-        hm[0] = randRange(TERRAIN_MIN_HEIGHT + 50, TERRAIN_MAX_HEIGHT - 50);
-        hm[n - 1] = randRange(TERRAIN_MIN_HEIGHT + 50, TERRAIN_MAX_HEIGHT - 50);
+        // Layer several sine waves with random frequency/amplitude
+        const waves = randInt(3, 6);
+        const waveParams = [];
+        for (let w = 0; w < waves; w++) {
+            waveParams.push({
+                freq: randRange(0.002, 0.015),
+                amp: randRange(20, 80),
+                phase: randRange(0, Math.PI * 2)
+            });
+        }
 
-        let step = n - 1;
-        let roughness = TERRAIN_ROUGHNESS;
-        let range = TERRAIN_MAX_HEIGHT - TERRAIN_MIN_HEIGHT;
-
-        while (step > 1) {
-            const halfStep = Math.floor(step / 2);
-            for (let i = 0; i < n - 1; i += step) {
-                const mid = i + halfStep;
-                if (mid < n) {
-                    const right = Math.min(i + step, n - 1);
-                    hm[mid] = (hm[i] + hm[right]) / 2 + randRange(-range * roughness, range * roughness);
-                    hm[mid] = clamp(hm[mid], TERRAIN_MIN_HEIGHT, TERRAIN_MAX_HEIGHT);
-                }
+        for (let x = 0; x < CANVAS_WIDTH; x++) {
+            let h = baseHeight;
+            for (const wave of waveParams) {
+                h += Math.sin(x * wave.freq + wave.phase) * wave.amp;
             }
-            range *= roughness;
-            step = halfStep;
+            hm[x] = clamp(h, TERRAIN_MIN_HEIGHT, TERRAIN_MAX_HEIGHT);
+        }
+    }
+
+    _addPeak(cx, width, height) {
+        const hm = this.heightmap;
+        const halfWidth = width / 2;
+        const left = Math.max(0, Math.floor(cx - halfWidth));
+        const right = Math.min(CANVAS_WIDTH - 1, Math.ceil(cx + halfWidth));
+
+        for (let x = left; x <= right; x++) {
+            const t = (x - cx) / halfWidth; // -1 to 1
+            // Smooth bell curve (cosine shape)
+            const factor = (Math.cos(t * Math.PI) + 1) / 2;
+            hm[x] = clamp(hm[x] + height * factor, TERRAIN_MIN_HEIGHT, TERRAIN_MAX_HEIGHT);
         }
     }
 
