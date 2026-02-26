@@ -211,6 +211,9 @@ export class Game {
     }
 
     _updateAiming(dt) {
+        // Keep particles animating in background
+        this.particles.update(dt, this.terrain);
+
         const tank = this.players[this.currentPlayerIndex];
         if (!tank.alive) {
             this.nextTurn();
@@ -347,18 +350,11 @@ export class Game {
             }
         }
 
-        // Check if all gameplay-relevant effects done (don't wait for visual particles)
+        // Advance turn as soon as projectiles and effects are done
+        // Particles keep animating in the background
         if (!this.projectiles.hasActive && !this.weaponSystem.hasActiveEffects) {
-            // Give particles a brief moment to display, then advance
-            if (!this._turnEndTimer) {
-                this._turnEndTimer = 5.0; // 5 seconds to watch explosion
-            }
-            this._turnEndTimer -= dt;
-            if (this._turnEndTimer <= 0) {
-                this._turnEndTimer = null;
-                this._processTurnResults();
-                this.nextTurn();
-            }
+            this._processTurnResults();
+            this.nextTurn();
         }
     }
 
