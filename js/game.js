@@ -277,8 +277,8 @@ export class Game {
     }
 
     _updateFiring(dt) {
-        // Update projectiles
-        this.projectiles.update(dt, this.wind, this.terrain);
+        // Update projectiles (with tank collision detection)
+        this.projectiles.update(dt, this.wind, this.terrain, this.players);
 
         // Check MIRV splits
         const mirvSplits = [];

@@ -69,6 +69,12 @@ export class Projectile {
                     return;
                 }
             }
+
+            // Tank collision (checked via callback if provided)
+            if (this._tankCollisionCheck && this._tankCollisionCheck(this)) {
+                this.active = false;
+                return;
+            }
         }
     }
 
@@ -121,8 +127,24 @@ export class ProjectileSystem {
         this.projectiles.push(projectile);
     }
 
-    update(dt, wind, terrain) {
+    update(dt, wind, terrain, tanks) {
+        // Set up tank collision check for each projectile
         for (const p of this.projectiles) {
+            if (tanks) {
+                p._tankCollisionCheck = (proj) => {
+                    for (const tank of tanks) {
+                        if (!tank.alive) continue;
+                        if (tank.playerIndex === proj.ownerIndex && proj.age < 0.3) continue; // Grace period for own tank
+                        const dx = proj.x - tank.x;
+                        const dy = proj.y - (tank.surfaceY - 6); // Center of tank body
+                        // Bounding box check (half-width=12, half-height=8)
+                        if (Math.abs(dx) < 14 && Math.abs(dy) < 10) {
+                            return true;
+                        }
+                    }
+                    return false;
+                };
+            }
             p.update(dt, wind, terrain);
         }
     }

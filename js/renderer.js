@@ -138,11 +138,16 @@ export class Renderer {
         ctx.arc(0, -TANK_HEIGHT, TANK_WIDTH / 3, Math.PI, 0);
         ctx.fill();
 
-        // Turret
+        // Turret - pivot at dome center, draw barrel extending outward
         ctx.save();
-        ctx.rotate(-tank.aimAngle * Math.PI / 180 - angle); // Compensate terrain angle
+        ctx.translate(0, -TANK_HEIGHT); // Move to dome center
+        // aimAngle: 0°=right, 90°=up, 180°=left
+        // Canvas rotation: 0=right, negative=up. So rotate by -aimAngle.
+        // Also compensate for terrain tilt since we're inside the terrain-rotated context.
+        ctx.rotate(-tank.aimAngle * Math.PI / 180 - angle);
         ctx.fillStyle = color.dark;
-        ctx.fillRect(-TANK_TURRET_WIDTH / 2, -TANK_HEIGHT - TANK_TURRET_LENGTH, TANK_TURRET_WIDTH, TANK_TURRET_LENGTH);
+        // Draw barrel extending along positive X axis from pivot
+        ctx.fillRect(0, -TANK_TURRET_WIDTH / 2, TANK_TURRET_LENGTH, TANK_TURRET_WIDTH);
         ctx.restore();
 
         // Treads
