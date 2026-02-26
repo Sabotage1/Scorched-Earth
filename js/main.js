@@ -33,6 +33,28 @@ if (isTouchDevice) {
     document.addEventListener('touchstart', resumeAudio, { once: true });
 }
 
+// Fullscreen toggle
+if (isTouchDevice) {
+    const fsBtn = document.getElementById('fullscreen-btn');
+    if (fsBtn) {
+        fsBtn.addEventListener('click', () => {
+            if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+                const el = document.documentElement;
+                (el.requestFullscreen || el.webkitRequestFullscreen).call(el);
+            } else {
+                (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+            }
+        });
+
+        const updateIcon = () => {
+            const isFS = !!(document.fullscreenElement || document.webkitFullscreenElement);
+            fsBtn.textContent = isFS ? '\u2716' : '\u26F6';
+        };
+        document.addEventListener('fullscreenchange', updateIcon);
+        document.addEventListener('webkitfullscreenchange', updateIcon);
+    }
+}
+
 // Toggle touch controls visibility based on game state
 function updateTouchControlsVisibility() {
     if (!isTouchDevice) return;
