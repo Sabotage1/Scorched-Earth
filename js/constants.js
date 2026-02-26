@@ -25,7 +25,7 @@ export const TANK_FUEL_DEFAULT = 0;
 // Terrain
 export const TERRAIN_MIN_HEIGHT = 80;
 export const TERRAIN_MAX_HEIGHT = 500;
-export const TERRAIN_ROUGHNESS = 0.4;
+export const TERRAIN_ROUGHNESS = 0.25;
 
 // Scoring
 export const KILL_BONUS = 5000;
