@@ -274,10 +274,14 @@ export class Game {
     }
 
     _fireCurrentWeapon(tank) {
+        console.log('FIRE!', tank.name, tank.currentWeaponKey, 'angle:', tank.aimAngle, 'power:', tank.power);
+        const muzzle = tank.getMuzzlePosition(this.terrain);
+        console.log('Muzzle:', muzzle.x, muzzle.y, 'surfaceY:', this.terrain.getSurfaceY(muzzle.x));
         this.weaponSystem.fire(tank);
+        console.log('Projectiles after fire:', this.projectiles.projectiles.length);
         this.state = STATE.FIRING;
         this.turnResults = [];
-        this._firingMinTime = 0.3; // Minimum time in firing state to prevent instant cycling
+        this._firingMinTime = 0.3;
     }
 
     _updateFiring(dt) {
