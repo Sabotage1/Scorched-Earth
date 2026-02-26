@@ -170,7 +170,7 @@ export class Tank {
         if (this.fuel <= 0) return;
         const step = direction; // -1 or +1
         const newX = clamp(this.x + step, TANK_WIDTH, CANVAS_WIDTH - TANK_WIDTH);
-        this.fuel -= 1;
+        this.fuel -= 0.5;
         this.x = newX;
         this.surfaceY = terrain.getSurfaceY(newX);
         this.terrainAngle = terrain.getAngleAt(newX);

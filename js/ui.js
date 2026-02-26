@@ -38,7 +38,7 @@ export class UI {
                     <p><b>Space/Enter</b> Fire &nbsp; <b>Q/E</b> Change weapon</p>
                     <p><b>A/D</b> Move tank (requires fuel)</p>
                 </div>
-                <div class="version-info">v0.6.5</div>
+                <div class="version-info">v0.6.6</div>
             </div>
         `);
 
