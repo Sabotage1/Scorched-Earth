@@ -9,7 +9,7 @@ class Particle {
         this.y = y;
         this.vx = vx;
         this.vy = vy;
-        this.life = Math.min(life, 4.0); // Cap at 4 seconds
+        this.life = Math.min(life, 2.5); // Cap at 2.5 seconds
         this.maxLife = this.life;
         this.color = color;
         this.size = size;
