@@ -36,22 +36,50 @@ if (isTouchDevice) {
 // Fullscreen toggle
 if (isTouchDevice) {
     const fsBtn = document.getElementById('fullscreen-btn');
+    const iosPrompt = document.getElementById('ios-fullscreen-prompt');
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+        (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    const isStandalone = window.navigator.standalone === true ||
+        window.matchMedia('(display-mode: standalone)').matches;
+
     if (fsBtn) {
+        // Hide button if already running as PWA
+        if (isIOS && isStandalone) {
+            fsBtn.style.display = 'none';
+        }
+
         fsBtn.addEventListener('click', () => {
-            if (!document.fullscreenElement && !document.webkitFullscreenElement) {
-                const el = document.documentElement;
-                (el.requestFullscreen || el.webkitRequestFullscreen).call(el);
+            if (isIOS) {
+                // iOS: show "Add to Home Screen" prompt
+                if (iosPrompt) {
+                    iosPrompt.classList.toggle('visible');
+                }
             } else {
-                (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+                // Android / other: use real Fullscreen API
+                if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+                    const el = document.documentElement;
+                    (el.requestFullscreen || el.webkitRequestFullscreen).call(el);
+                } else {
+                    (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+                }
             }
         });
 
-        const updateIcon = () => {
-            const isFS = !!(document.fullscreenElement || document.webkitFullscreenElement);
-            fsBtn.textContent = isFS ? '\u2716' : '\u26F6';
-        };
-        document.addEventListener('fullscreenchange', updateIcon);
-        document.addEventListener('webkitfullscreenchange', updateIcon);
+        if (!isIOS) {
+            const updateIcon = () => {
+                const isFS = !!(document.fullscreenElement || document.webkitFullscreenElement);
+                fsBtn.textContent = isFS ? '\u2716' : '\u26F6';
+            };
+            document.addEventListener('fullscreenchange', updateIcon);
+            document.addEventListener('webkitfullscreenchange', updateIcon);
+        }
+    }
+
+    // Dismiss iOS prompt on tap
+    if (iosPrompt) {
+        iosPrompt.addEventListener('click', () => {
+            iosPrompt.classList.remove('visible');
+        });
     }
 }
 
