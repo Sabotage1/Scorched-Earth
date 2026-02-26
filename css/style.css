@@ -1,0 +1,356 @@
+/* style.css - UI styling for Scorched Earth */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-family: 'Courier New', monospace;
+    overflow: hidden;
+}
+
+#game-container {
+    position: relative;
+    width: 1200px;
+    max-width: 100vw;
+    aspect-ratio: 1200 / 700;
+}
+
+#game-canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+    image-rendering: auto;
+}
+
+#ui-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    pointer-events: none;
+}
+
+#ui-overlay.active {
+    display: flex;
+    pointer-events: auto;
+    background: rgba(0, 0, 0, 0.6);
+}
+
+/* Menu panels */
+.menu-panel {
+    background: rgba(10, 10, 30, 0.95);
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    padding: 30px 40px;
+    color: #fff;
+    text-align: center;
+    max-height: 90%;
+    overflow-y: auto;
+    min-width: 400px;
+    max-width: 600px;
+}
+
+.menu-panel::-webkit-scrollbar {
+    width: 6px;
+}
+
+.menu-panel::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.menu-panel::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.2);
+    border-radius: 3px;
+}
+
+.game-title {
+    font-size: 42px;
+    color: #e74c3c;
+    text-shadow: 0 0 20px rgba(231, 76, 60, 0.5),
+                 0 2px 0 #c0392b;
+    margin-bottom: 5px;
+    letter-spacing: 4px;
+}
+
+.subtitle {
+    color: #888;
+    font-size: 14px;
+    margin-bottom: 30px;
+    font-style: italic;
+}
+
+/* Buttons */
+.btn {
+    font-family: 'Courier New', monospace;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.btn:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.btn-primary {
+    background: #e74c3c;
+    color: #fff;
+}
+
+.btn-primary:hover:not(:disabled) {
+    background: #c0392b;
+}
+
+.btn-secondary {
+    background: rgba(255,255,255,0.1);
+    color: #ccc;
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+.btn-secondary:hover:not(:disabled) {
+    background: rgba(255,255,255,0.2);
+}
+
+.btn-small {
+    padding: 5px 12px;
+    font-size: 11px;
+    letter-spacing: 1px;
+}
+
+.btn-buy {
+    background: #27ae60;
+    color: #fff;
+}
+
+.btn-buy:hover:not(:disabled) {
+    background: #2ecc71;
+}
+
+.menu-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 25px;
+    flex-wrap: wrap;
+}
+
+/* Controls info */
+.controls-info {
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    text-align: left;
+}
+
+.controls-info h3 {
+    color: #888;
+    font-size: 13px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.controls-info p {
+    color: #666;
+    font-size: 12px;
+    line-height: 1.8;
+}
+
+.controls-info b {
+    color: #aaa;
+}
+
+/* Setup */
+.setup-section {
+    margin: 15px 0;
+    text-align: left;
+}
+
+.setup-section label {
+    color: #aaa;
+    font-size: 14px;
+}
+
+.setup-section select,
+.player-setup-row input,
+.player-setup-row select {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+}
+
+.player-config {
+    margin: 15px 0;
+}
+
+.player-setup-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    padding: 10px;
+    margin: 8px 0;
+    background: rgba(255,255,255,0.03);
+    border-radius: 6px;
+}
+
+.player-setup-row input {
+    flex: 1;
+}
+
+/* Shop */
+.shop-panel {
+    min-width: 500px;
+    max-width: 650px;
+}
+
+.shop-money {
+    font-size: 18px;
+    color: #2ecc71;
+    margin: 10px 0 20px;
+}
+
+.money-amount {
+    font-weight: bold;
+    font-size: 22px;
+}
+
+.shop-section {
+    text-align: left;
+    margin: 15px 0;
+}
+
+.shop-section h3 {
+    color: #888;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.shop-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    margin: 4px 0;
+    background: rgba(255,255,255,0.03);
+    border-radius: 4px;
+    transition: background 0.1s;
+}
+
+.shop-item:hover:not(.disabled) {
+    background: rgba(255,255,255,0.07);
+}
+
+.shop-item.disabled {
+    opacity: 0.4;
+}
+
+.shop-item-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.shop-item-name {
+    color: #ddd;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.shop-item-desc {
+    color: #777;
+    font-size: 11px;
+}
+
+.shop-item-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.shop-item-price {
+    color: #f1c40f;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.shop-item-owned {
+    color: #3498db;
+    font-size: 12px;
+}
+
+/* Game Over / Results */
+.gameover-panel h1 {
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+.results-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    font-size: 13px;
+}
+
+.results-table th {
+    color: #888;
+    text-transform: uppercase;
+    font-size: 10px;
+    letter-spacing: 1px;
+    padding: 8px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.results-table td {
+    padding: 8px;
+    text-align: center;
+}
+
+/* Responsive scaling */
+@media (max-width: 1200px) {
+    #game-container {
+        width: 100vw;
+    }
+}
+
+@media (max-height: 700px) {
+    #game-container {
+        height: 100vh;
+        width: auto;
+    }
+}
