@@ -95,6 +95,12 @@ export class Projectile {
 
         this.y = terrain.getSurfaceY(this.x);
 
+        // Check tank collision while rolling
+        if (this._tankCollisionCheck && this._tankCollisionCheck(this)) {
+            this.active = false;
+            return;
+        }
+
         this.trail.push({ x: this.x, y: this.y });
         if (this.trail.length > this.maxTrail) {
             this.trail.shift();

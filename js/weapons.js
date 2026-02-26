@@ -66,6 +66,27 @@ export class WeaponSystem {
                 this.terrain.addTerrain(x, y, weapon.blastRadius);
                 this.particles.spawnDirt(x, y, weapon.blastRadius);
                 if (this.audio) this.audio.playDirt();
+                // Bury tanks — check if any tank is now under the new terrain
+                for (const tank of tanks) {
+                    if (!tank.alive) continue;
+                    const newSurfaceY = this.terrain.getSurfaceY(tank.x);
+                    if (newSurfaceY < tank.surfaceY) {
+                        // Terrain rose above the tank — bury damage
+                        const buryDepth = tank.surfaceY - newSurfaceY;
+                        const buryDamage = Math.floor(buryDepth * 1.5);
+                        if (buryDamage > 0) {
+                            tank.takeDamage(buryDamage);
+                            results.push({
+                                tank,
+                                damage: buryDamage,
+                                killed: !tank.alive,
+                                ownerIndex: projectile.ownerIndex
+                            });
+                        }
+                        tank.surfaceY = newSurfaceY;
+                        tank.terrainAngle = this.terrain.getAngleAt(tank.x);
+                    }
+                }
                 break;
 
             case 'roller':
