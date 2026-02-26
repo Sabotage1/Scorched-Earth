@@ -18,7 +18,7 @@ export class Terrain {
     generate() {
         this.theme = TERRAIN_THEMES[randInt(0, TERRAIN_THEMES.length - 1)];
         this._midpointDisplacement();
-        this._smoothTerrain(3);
+        this._smoothTerrain(10);
         this.dirty = true;
         this.dirtyColumns.clear();
         this._renderOffscreen();
