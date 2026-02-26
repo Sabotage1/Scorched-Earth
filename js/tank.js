@@ -191,9 +191,12 @@ export class Tank {
 
     getMuzzlePosition() {
         const rad = this.aimAngle * Math.PI / 180;
+        // Barrel starts at dome center (x, surfaceY - TANK_HEIGHT) and extends TANK_TURRET_LENGTH
+        const domeX = this.x;
+        const domeY = this.surfaceY - TANK_HEIGHT;
         return {
-            x: this.x + Math.cos(rad) * 20,
-            y: this.surfaceY - TANK_HEIGHT - Math.sin(rad) * 20
+            x: domeX + Math.cos(rad) * TANK_TURRET_LENGTH,
+            y: domeY - Math.sin(rad) * TANK_TURRET_LENGTH
         };
     }
 

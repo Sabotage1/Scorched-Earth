@@ -10,8 +10,8 @@ export const MIN_POWER = 50;
 export const WIND_MAX = 80;          // max wind force
 export const PHYSICS_SUBSTEPS = 4;
 export const PROJECTILE_SPEED_SCALE = 1.0;
-export const FALL_DAMAGE_THRESHOLD = 30;  // pixels before fall damage starts
-export const FALL_DAMAGE_PER_PIXEL = 0.8;
+export const FALL_DAMAGE_THRESHOLD = 10;  // pixels before fall damage starts
+export const FALL_DAMAGE_PER_PIXEL = 1.5;
 
 // Tank
 export const TANK_WIDTH = 24;

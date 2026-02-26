@@ -292,22 +292,23 @@ export class Renderer {
     drawAimIndicator(tank) {
         if (!tank.alive) return;
         const ctx = this.ctx;
-        const color = PLAYER_COLORS[tank.playerIndex];
 
-        // Dotted aim line
+        // Dotted aim line extending from muzzle tip
         const aimRad = tank.aimAngle * Math.PI / 180;
-        const lineLen = 40;
-        const startX = tank.x;
-        const startY = tank.surfaceY - TANK_HEIGHT;
+        const domeX = tank.x;
+        const domeY = tank.surfaceY - TANK_HEIGHT;
+        const muzzleX = domeX + Math.cos(aimRad) * TANK_TURRET_LENGTH;
+        const muzzleY = domeY - Math.sin(aimRad) * TANK_TURRET_LENGTH;
+        const lineLen = 35;
 
-        ctx.strokeStyle = `rgba(255,255,255,0.4)`;
+        ctx.strokeStyle = 'rgba(255,255,255,0.4)';
         ctx.lineWidth = 1;
         ctx.setLineDash([4, 4]);
         ctx.beginPath();
-        ctx.moveTo(startX, startY);
+        ctx.moveTo(muzzleX, muzzleY);
         ctx.lineTo(
-            startX + Math.cos(aimRad) * lineLen,
-            startY - Math.sin(aimRad) * lineLen
+            muzzleX + Math.cos(aimRad) * lineLen,
+            muzzleY - Math.sin(aimRad) * lineLen
         );
         ctx.stroke();
         ctx.setLineDash([]);
