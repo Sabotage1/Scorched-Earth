@@ -86,7 +86,10 @@ if (isTouchDevice) {
 // Toggle touch controls visibility based on game state
 function updateTouchControlsVisibility() {
     if (!isTouchDevice) return;
-    const showControls = game.state === STATE.AIMING;
+    const isLocalTurn = !game.online || game.currentPlayerIndex === game.online.localPlayerIndex;
+    const currentTank = game.players && game.players[game.currentPlayerIndex];
+    const isHumanTurn = currentTank && !currentTank.isAI;
+    const showControls = game.state === STATE.AIMING && isLocalTurn && isHumanTurn;
     document.body.classList.toggle('touch-controls-hidden', !showControls);
 }
 
