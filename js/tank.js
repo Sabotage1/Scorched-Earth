@@ -1,6 +1,6 @@
 // tank.js - Tank entity: position, health, inventory, aiming
 
-import { TANK_MAX_HEALTH, TANK_WIDTH, TANK_HEIGHT, MAX_POWER, MIN_POWER,
+import { TANK_MAX_HEALTH, TANK_WIDTH, TANK_HEIGHT, TANK_TURRET_LENGTH, MAX_POWER, MIN_POWER,
          WEAPONS, STARTING_MONEY, FALL_DAMAGE_THRESHOLD, FALL_DAMAGE_PER_PIXEL,
          CANVAS_WIDTH, CANVAS_HEIGHT } from './constants.js';
 import { clamp } from './utils.js';

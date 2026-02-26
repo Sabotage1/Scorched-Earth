@@ -176,11 +176,6 @@ export class Game {
     }
 
     update(dt) {
-        if (!this._lastLoggedState || this._lastLoggedState !== this.state) {
-            console.log('State:', this.state, 'Player:', this.currentPlayerIndex,
-                        'Projectiles:', this.projectiles.projectiles.length);
-            this._lastLoggedState = this.state;
-        }
         switch (this.state) {
             case STATE.MENU:
             case STATE.SETUP:
@@ -279,11 +274,7 @@ export class Game {
     }
 
     _fireCurrentWeapon(tank) {
-        console.log('FIRE!', tank.name, 'weapon:', tank.currentWeaponKey,
-                    'angle:', tank.aimAngle.toFixed(1), 'power:', tank.power.toFixed(0));
         this.weaponSystem.fire(tank);
-        console.log('Active projectiles:', this.projectiles.projectiles.length,
-                    'Laser:', !!this.weaponSystem.laserBeam);
         this.state = STATE.FIRING;
         this.turnResults = [];
         this._firingMinTime = 0.3;
