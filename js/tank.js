@@ -189,15 +189,21 @@ export class Tank {
         };
     }
 
-    getMuzzlePosition() {
+    getMuzzlePosition(terrain) {
         const rad = this.aimAngle * Math.PI / 180;
         // Barrel starts at dome center (x, surfaceY - TANK_HEIGHT) and extends TANK_TURRET_LENGTH
         const domeX = this.x;
         const domeY = this.surfaceY - TANK_HEIGHT;
-        return {
-            x: domeX + Math.cos(rad) * TANK_TURRET_LENGTH,
-            y: domeY - Math.sin(rad) * TANK_TURRET_LENGTH
-        };
+        let mx = domeX + Math.cos(rad) * TANK_TURRET_LENGTH;
+        let my = domeY - Math.sin(rad) * TANK_TURRET_LENGTH;
+        // Ensure muzzle is above terrain
+        if (terrain) {
+            const surfaceY = terrain.getSurfaceY(mx);
+            if (my > surfaceY - 5) {
+                my = surfaceY - 5;
+            }
+        }
+        return { x: mx, y: my };
     }
 
     reset() {

@@ -18,7 +18,7 @@ export class WeaponSystem {
     fire(tank) {
         const weapon = tank.currentWeapon;
         const weaponKey = tank.currentWeaponKey;
-        const muzzle = tank.getMuzzlePosition();
+        const muzzle = tank.getMuzzlePosition(this.terrain);
         const vel = tank.getFireVelocity();
 
         tank.consumeWeapon();

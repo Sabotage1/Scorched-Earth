@@ -277,7 +277,7 @@ export class Game {
         this.weaponSystem.fire(tank);
         this.state = STATE.FIRING;
         this.turnResults = [];
-        this._turnEndTimer = null;
+        this._firingMinTime = 0.3; // Minimum time in firing state to prevent instant cycling
     }
 
     _updateFiring(dt) {
@@ -348,6 +348,12 @@ export class Game {
                     });
                 }
             }
+        }
+
+        // Minimum firing time to prevent instant cycling
+        if (this._firingMinTime > 0) {
+            this._firingMinTime -= dt;
+            return;
         }
 
         // Advance turn as soon as projectiles and effects are done
