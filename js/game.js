@@ -280,27 +280,26 @@ export class Game {
         // Update projectiles (with tank collision detection)
         this.projectiles.update(dt, this.wind, this.terrain, this.players);
 
-        // Check MIRV splits
+        // Check MIRV splits (only for active MIRVs that passed apex)
         const mirvSplits = [];
         for (const p of this.projectiles.projectiles) {
             if (p.active && p.weaponKey === 'mirv' && p.hasPassedApex) {
                 const bomblets = this.weaponSystem.checkMIRVSplit(p);
                 mirvSplits.push(...bomblets);
+                p._mirvSplit = true; // Mark for removal, don't process as impact
             }
         }
         for (const b of mirvSplits) {
             this.projectiles.add(b);
         }
-        // Remove split MIRV parents before impact processing
-        this.projectiles.removeInactive();
 
-        // Handle impacts
-        const impacted = this.projectiles.getImpacted();
+        // Handle impacts (inactive projectiles that aren't MIRV parents)
+        const impacted = this.projectiles.getImpacted().filter(p => !p._mirvSplit);
         for (const p of impacted) {
             if (p.weaponKey === 'roller' && !p.isRolling) {
                 // Roller just hit ground, start rolling
                 this.weaponSystem.handleImpact(p, this.players);
-                // handleImpact re-activates the roller, don't add to results
+                // handleImpact re-activates the roller in place
             } else if (p.isRolling) {
                 // Roller stopped rolling
                 const results = this.weaponSystem.handleRollerStop(p, this.players);
@@ -310,6 +309,7 @@ export class Game {
                 this.turnResults.push(...results);
             }
         }
+        // Now remove all inactive projectiles (MIRV parents + detonated ones)
         this.projectiles.removeInactive();
 
         // Update laser
