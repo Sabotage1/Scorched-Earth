@@ -2,16 +2,37 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="mobile-web-app-capable" content="yes">
     <title>Scorched Earth NG</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+    <div id="orientation-prompt">
+        <div class="orientation-icon">&#x1F4F1;</div>
+        <div class="orientation-text">Rotate your device to landscape</div>
+    </div>
     <div id="game-container">
         <canvas id="game-canvas"></canvas>
         <div id="online-overlay"></div>
         <div id="ui-overlay"></div>
+        <div id="touch-controls">
+            <div class="touch-group touch-group-left">
+                <button class="touch-btn" data-action="angle-up">&#x2B06; ANG</button>
+                <button class="touch-btn" data-action="angle-down">&#x2B07; ANG</button>
+                <button class="touch-btn" data-action="move-left">&#x25C0; MOV</button>
+                <button class="touch-btn" data-action="move-right">MOV &#x25B6;</button>
+            </div>
+            <div class="touch-group touch-group-right">
+                <button class="touch-btn" data-action="power-up">&#x2B06; PWR</button>
+                <button class="touch-btn" data-action="power-down">&#x2B07; PWR</button>
+                <button class="touch-btn touch-btn-fire" data-action="fire">FIRE</button>
+                <button class="touch-btn touch-btn-weapon" data-action="weapon">WPN</button>
+            </div>
+        </div>
     </div>
     <script type="module" src="js/main.js"></script>
 </body>
